@@ -48,20 +48,12 @@
         android:layout_marginTop="25dp"
         android:src="@drawable/die_1" />
 
-    <ImageView
-        android:id="@+id/die4Image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/die2Image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/die_1" />
 
     <TextView
         android:id="@+id/predictDice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/die4Image"
+        android:layout_below="@id/die2Image"
         android:layout_centerHorizontal="true"
         android:text="Predict Dice"
         android:textColor="@android:color/white"
@@ -90,8 +82,25 @@
         android:id="@+id/spinner1"
         android:layout_width="44dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="143dp"
+        android:layout_below="@id/predictDice"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/predictDice"
+        android:layout_toRightOf="@id/spinner1"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/predictDice"
+        android:layout_toRightOf="@id/spinner2"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     int die1;
     int die2;
     int die3;
-    int die4;
+
 
     // ArrayList to hold all three die values
     ArrayList<Integer> dice;
@@ -57,10 +57,17 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
 //    Button dicePred;
 
-    int spinner1Val;
-
+    //Spinner 1
     private Spinner spinner1;
-    private static final String[]paths = {"1", "2", "3", "4", "5", "6"};
+    private static final String[]paths1 = {"1", "2", "3", "4", "5", "6"};
+
+    //Spinner2
+    private Spinner spinner2;
+    private static final String[]paths2 = {"1", "2", "3", "4", "5", "6"};
+
+    //Spinner3
+    private Spinner spinner3;
+    private static final String[]paths3 = {"1", "2", "3", "4", "5", "6"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +104,13 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         ImageView die1Image = (ImageView) findViewById(R.id.die1Image);
         ImageView die2Image = (ImageView) findViewById(R.id.die2Image);
         ImageView die3Image = (ImageView) findViewById(R.id.die3Image);
-        ImageView die4Image = (ImageView) findViewById(R.id.die4Image);
+
 
         diceImageViews = new ArrayList<ImageView>();
         diceImageViews.add(die1Image);
         diceImageViews.add(die2Image);
         diceImageViews.add(die3Image);
-        diceImageViews.add(die4Image);
+
 
         //Stores prediction
         prediction = new int[4];
@@ -123,11 +130,27 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
         spinner1 = (Spinner)findViewById(R.id.spinner1);
         ArrayAdapter<String>adapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item,paths);
+                android.R.layout.simple_spinner_item,paths1);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
         spinner1.setOnItemSelectedListener(this);
+
+        spinner2 = (Spinner)findViewById(R.id.spinner2);
+        ArrayAdapter<String>adapter2 = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item,paths2);
+
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter);
+        spinner2.setOnItemSelectedListener(this);
+
+        spinner3 = (Spinner)findViewById(R.id.spinner3);
+        ArrayAdapter<String>adapter3 = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item,paths3);
+
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner3.setAdapter(adapter);
+        spinner3.setOnItemSelectedListener(this);
 
 
 
@@ -143,8 +166,11 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
         //Gets value from spinner and converts it to int value to store in the predition array
         prediction[0] = Integer.parseInt(spinner1.getSelectedItem().toString());
+        prediction[1] = Integer.parseInt(spinner2.getSelectedItem().toString());
+        prediction[2] = Integer.parseInt(spinner3.getSelectedItem().toString());
 
-        Toast.makeText(parent.getContext(), "Dice 1 Prediction: " + prediction[0], Toast.LENGTH_LONG).show();
+//        Toast.makeText(parent.getContext(), "Dice 1 Prediction: " + prediction[0], Toast.LENGTH_LONG).show();
+//        Toast.makeText(parent.getContext(), "Dice 2 Prediction: " + prediction[1], Toast.LENGTH_LONG).show();
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
@@ -177,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
             if (prediction[0] == die1){
                 Toast.makeText(this, "You predicted Dice 1 correctly",Toast.LENGTH_SHORT).show();
             }
+
             ++timesRolled;
         }
 
@@ -193,9 +220,9 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
             }
 
             //Checks if prediction was correct
-//            if (prediction.get(0) == die2){
-//                Toast.makeText(this, "You predicted correct",Toast.LENGTH_SHORT).show();
-//            }
+            if (prediction[1] == die2){
+                Toast.makeText(this, "You predicted Dice 2 correctly",Toast.LENGTH_SHORT).show();
+            }
 
             ++timesRolled;
         }
@@ -212,38 +239,14 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
                 e.printStackTrace();
             }
 
-            //Checks if prediction was correct
-//            if (prediction.get(0) == die3){
-//                Toast.makeText(this, "You predicted correct",Toast.LENGTH_SHORT).show();
-//            }
-
-            ++timesRolled;
-        }
-
-        if (count == 3) {
-            die4 = rand.nextInt(6) + 1;
-            String imageName = "die_" + die4 + ".png";
-            try {
-                InputStream stream = getAssets().open(imageName);
-                Drawable d = Drawable.createFromStream(stream, null);
-                diceImageViews.get(3).setImageDrawable(d);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             String msg;
-            if (die1 == die2 && die2 == die3 && die3 == die4){
-                //Quad score
-                int scoreDelta = die1 * 200;
-                msg = "You rolled a quad " + die1 + "! You score " + scoreDelta + " points!";
-            }
-            else if (die1 == die2 && die1 == die3 || die2 == die3 && die3 == die4 || die1 == die3 && die3 == die4 || die1 == die2 && die1 == die4){
+
+            if (die1 == die2 && die2 == die3){
                 //Tripple score
                 int scoreDelta = die1 * 100;
                 msg = "You rolled a tripple " + die1 + "! You score " + scoreDelta + " points!";
                 score += scoreDelta;
-            } else if (die1 == die2 || die1 == die3 || die2 == die3){
+            } else if (die1 == die2 && die1 != die3 || die1 == die3 && die1 != die2 || die2 == die3 && die2 != die1){
                 //Double score
                 msg = "You rolled a doubles for 50 points!";
                 score += 50;
@@ -251,14 +254,13 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
                 msg = "You didn't score this roll, Try again!";
             }
 
+            if (prediction[2] == die3){
+                Toast.makeText(this, "You predicted Dice 3 correctly",Toast.LENGTH_SHORT).show();
+            }
+
             // Update the app to display the result message
             rollResult.setText(msg);
             scoreText.setText("Score: " + score);
-
-            //Checks if prediction was correct
-//            if (prediction.get(0) == die4){
-//                Toast.makeText(this, "You predicted correct",Toast.LENGTH_SHORT).show();
-//            }
 
             timesRolled = 0;
         }
